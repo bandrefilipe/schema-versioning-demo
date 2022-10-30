@@ -1,0 +1,14 @@
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":application"))
+
+    // Spring Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    // Jackson Module: Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // Exposed
+    implementation("org.jetbrains.exposed:exposed-spring-boot-starter:0.40.1")
+    // H2 Database
+    runtimeOnly("com.h2database:h2")
+}
