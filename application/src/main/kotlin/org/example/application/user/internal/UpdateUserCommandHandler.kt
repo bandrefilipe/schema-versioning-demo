@@ -7,7 +7,7 @@ import org.example.domain.user.User
 import org.example.domain.user.UserNotFoundException
 import org.example.domain.user.UserRepository
 
-class UpdateUserCommandHandler(
+internal class UpdateUserCommandHandler(
     private val tx: TransactionProvider,
     private val userRepo: UserRepository,
 ) : CommandHandler<UpdateUser, User>() {
