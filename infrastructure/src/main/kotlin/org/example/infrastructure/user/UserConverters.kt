@@ -5,7 +5,7 @@ import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 @Component
-class User2UserV1PayloadConverter : Converter<User, UserV1Payload> {
+private class User2UserV1PayloadConverter : Converter<User, UserV1Payload> {
 
     override fun convert(source: User) = UserV1Payload(
         id = source.id.value.toString(),
