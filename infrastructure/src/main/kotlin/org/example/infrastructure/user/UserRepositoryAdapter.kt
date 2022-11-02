@@ -25,7 +25,7 @@ private class UserRepositoryAdapter : UserRepository {
     override fun findById(id: UserId): User? {
         return UserTable.select { UserTable.id eq id.value }
             .map(::fromRow)
-            .first()
+            .firstOrNull()
     }
 
     private fun fromRow(row: ResultRow): User = User(
