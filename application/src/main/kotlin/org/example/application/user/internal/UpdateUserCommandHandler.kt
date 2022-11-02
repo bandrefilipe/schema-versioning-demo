@@ -25,6 +25,9 @@ class UpdateUserCommandHandler(
     private fun updateUser(cmd: UpdateUser, current: User): User {
         val updatedUser = User(
             id = current.id,
+            schema = current.schema,
+            emails = current.emails,
+            // updated values:
             username = cmd.username,
             email = cmd.email,
         )

@@ -1,6 +1,7 @@
 package org.example.infrastructure
 
 import mu.KotlinLogging
+import org.example.infrastructure.user.UserContactsTable
 import org.example.infrastructure.user.UserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -20,6 +21,7 @@ private class InfrastructureConfiguration(
         transaction {
             log.info { "Creating database schema" }
             SchemaUtils.create(UserTable)
+            SchemaUtils.create(UserContactsTable)
         }
     }
 
