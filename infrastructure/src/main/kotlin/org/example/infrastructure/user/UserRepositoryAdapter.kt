@@ -8,6 +8,7 @@ import org.example.domain.user.Username
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.update
 import org.springframework.stereotype.Component
 
 @Component
@@ -26,6 +27,14 @@ private class UserRepositoryAdapter : UserRepository {
         return UserTable.select { UserTable.id eq id.value }
             .map(::fromRow)
             .firstOrNull()
+    }
+
+    override fun update(entity: User): User {
+        UserTable.update {
+            it[username] = entity.username.value
+            it[email] = entity.email.value
+        }
+        return entity
     }
 
     private fun fromRow(row: ResultRow): User = User(

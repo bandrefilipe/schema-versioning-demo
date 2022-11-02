@@ -7,12 +7,7 @@ import org.example.domain.user.User
 import org.example.domain.user.UserId
 import org.example.domain.user.Username
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
@@ -43,6 +38,20 @@ private class UsersV1RestController(
             .findUserById(query = FindUserById(userId))
             ?.let { user -> ResponseEntity.ok(user) }
             ?: ResponseEntity.notFound().build()
+    }
+
+    @PutMapping(path = ["/{id}"])
+    fun updateUser(
+        @PathVariable("id") id: String,
+        @RequestBody form: UserV1Form,
+    ): ResponseEntity<User> {
+        log.debug { "PUT /v1/users/$id : updateUser" }
+        val userId = UserId(id)
+        val username = Username(requireNotNull(form.username))
+        val email = Email(requireNotNull(form.email))
+        return userService
+            .updateUser(UpdateUser(userId, username, email))
+            .let { updatedUser -> ResponseEntity.ok(updatedUser) }
     }
 
     companion object {
