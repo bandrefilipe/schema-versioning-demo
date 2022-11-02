@@ -15,15 +15,16 @@ internal class CreateUserCommandHandler(
 
     override fun onExecution(cmd: CreateUser): User {
         return tx.transactional {
-            val user = User(
+            User(
                 id = UserId.random(),
                 schema = SchemaVersion(1),
                 username = cmd.username,
                 email = cmd.email,
                 emails = emptySet(),
-            )
-            return@transactional userRepo.save(user)
+            ).let { user ->
+                val userId = userRepo.save(user)
+                return@transactional checkNotNull(userRepo.findById(userId)) { "User $userId should have been saved" }
+            }
         }
     }
-
 }

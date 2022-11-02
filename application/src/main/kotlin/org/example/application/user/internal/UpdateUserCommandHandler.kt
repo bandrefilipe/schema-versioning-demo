@@ -17,12 +17,15 @@ class UpdateUserCommandHandler(
         return tx.transactional {
             when (val currentUser = userRepo.findById(cmd.userId)) {
                 null -> throw UserNotFoundException("User ${cmd.userId} not found")
-                else -> return@transactional updateUser(cmd, currentUser)
+                else -> {
+                    this.updateUser(cmd, currentUser)
+                    return@transactional checkNotNull(userRepo.findById(cmd.userId)) { "User ${cmd.userId} should have been saved" }
+                }
             }
         }
     }
 
-    private fun updateUser(cmd: UpdateUser, current: User): User {
+    private fun updateUser(cmd: UpdateUser, current: User) {
         val updatedUser = User(
             id = current.id,
             schema = current.schema,
@@ -31,6 +34,6 @@ class UpdateUserCommandHandler(
             username = cmd.username,
             email = cmd.email,
         )
-        return userRepo.update(updatedUser)
+        userRepo.update(updatedUser)
     }
 }
