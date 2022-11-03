@@ -41,7 +41,7 @@ private class UsersV1RestController(
         log.debug { "GET /v1/users/$id : findUserById" }
         val userId = UserId(id)
         return userService
-            .findUserById(query = FindUserById(userId))
+            .findUserById(cmd = FindUserById(userId))
             ?.let { user -> converter.convert(user, UserV1Payload::class) }
             ?.let { payload -> ResponseEntity.ok(payload) }
             ?: ResponseEntity.notFound().build()
